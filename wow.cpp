@@ -2,7 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <map>
-using namesapce std;
+#include <string>
+#include <iomanip>
+using namespace std;
 
 class Warrior {
 public:
@@ -61,8 +63,9 @@ class RedHeadquarter {
 public:
     RedHeadquarter(int energy);
     void produceWarr(int order, int life);
+    int getTime() const { return time; }
     
-    friend bool isProduce(const RedHeadquarter& red, map<string,int> warrStrength);
+    friend bool isProduce(RedHeadquarter& red, vector<pair<string,int> > warrStrength);
 private:
     int energy;
     int time;
@@ -70,6 +73,7 @@ private:
     int nextWarr;
 
     vector<string> produceWarrSeq;
+    //unordered_map<string,int> eachWarrCount;
     map<string, int> eachWarrCount;
 };
 
@@ -127,8 +131,9 @@ class BlueHeadquarter {
 public:
     BlueHeadquarter(int energy);
     void produceWarr(int order, int life);
+    int getTime() const { return time; }
     
-    friend bool isProduce(const BlueHeadquarter& blue, map<string,int> warrStrength);
+    friend bool isProduce(BlueHeadquarter& blue, vector<pair<string,int> > warrStrength);
 private:
     int energy;
     int time;
@@ -136,6 +141,7 @@ private:
     int nextWarr;
 
     vector<string> produceWarrSeq;
+    //使用map会自动按key排序 造成武士生命值初始化错误
     map<string, int> eachWarrCount;
 };
 
@@ -189,19 +195,106 @@ void BlueHeadquarter::produceWarr(int order, int life) {
 }
 
 
-bool isProduce(const RedHeadquarter& red, map<string,int> warrStrength) {
-    int lastWarr = red.nextWrr;
 
-    while(red.energy < warrStrength[red.produceWarrSeq[red.nextWarr]]) {
+bool isProduce(RedHeadquarter& red, vector<pair<string,int> > warrStrength) {
+    int lastWarr = red.nextWarr;
+    vector<pair<string,int> >::iterator it = warrStrength.begin();
+    while(it != warrStrength.end() 
+	    && red.produceWarrSeq[red.nextWarr] != it->first)
+	it ++;
+
+    while(red.energy < it -> second) {
 	red.nextWarr = (red.nextWarr+1) % 5;
 	if(red.nextWarr == lastWarr)
 	    return false;
+
+	if(++ it == warrStrength.end()) {
+	    it = warrStrength.begin();
+	    continue;
+	}
+	it++;
     }
 
-    int life = warrStrength[red.produceWarrSeq[red.nextWarr]];
-    red.produceWarr(red.nextWarr, life);
+    red.produceWarr(red.nextWarr, it->second);
     
     return true;
+}
+
+bool isProduce(BlueHeadquarter& blue, vector<pair<string,int> > warrStrength) {
+    int lastWarr = blue.nextWarr;
+    vector<pair<string,int> >::iterator it = warrStrength.begin();
+    while(it != warrStrength.end() 
+	    && blue.produceWarrSeq[blue.nextWarr] != it->first)
+	it ++;
+
+    while(blue.energy < it -> second) {
+	blue.nextWarr = (blue.nextWarr+1) % 5;
+	if(blue.nextWarr == lastWarr)
+	    return false;
+
+	if(++ it == warrStrength.end()) {
+	    it = warrStrength.begin();
+	    continue;
+	}
+	it++;
+    }
+
+    blue.produceWarr(blue.nextWarr, it->second);
+    
+    return true;
+}
+
+
+int main() {
+    //使用map会初始化武士发生错误
+    //unordered_map 编译有错 不知道为啥
+    //unordered_map<string,int> warrStrength;
+    vector<pair<string,int> > warrStrength;
+    warrStrength.push_back(make_pair<string,int>("dragon",0));
+    warrStrength.push_back(make_pair<string,int>("ninja",0));
+    warrStrength.push_back(make_pair<string,int>("iceman",0));
+    warrStrength.push_back(make_pair<string,int>("lion",0));
+    warrStrength.push_back(make_pair<string,int>("wolf",0));
+
+    int n, energy;
+    int tmp;
+    cin >> n;
+    for(int i = 0; i < n; ++ i) {
+	cin >> energy;
+	vector<pair<string,int> >::iterator it = warrStrength.begin();
+	for(int j = 0; j < 5; ++ j) {
+	    cin >> tmp;
+	    it -> second = tmp;
+	    cout << it->second << endl;
+	    it ++;
+	}
+
+	RedHeadquarter red(energy);
+	BlueHeadquarter blue(energy);
+	cout << "case:" << i+1 << endl;
+	while(1) {
+	    if(!isProduce(red, warrStrength)) {
+		cout << setw(3) << setfill('0');
+		cout << red.getTime() << " red headquarter stops making warriors" << endl;
+		while(isProduce(blue, warrStrength)) 
+			;
+		cout << setw(3) << setfill('0');
+		cout << blue.getTime() << " blue headquarter stops making warriors" << endl;
+		break;
+	    }
+	    if(!isProduce(blue, warrStrength)) {
+		cout << setw(3) << setfill('0');
+		cout << blue.getTime() << " blue headquarter stops making warriors" << endl;
+		while(isProduce(red, warrStrength)) 
+			;
+		cout << setw(3) << setfill('0');
+		cout << red.getTime() << " red headquarter stops making warriors" << endl;
+		break;
+	    }
+	}
+    }
+
+    return 0;
 }
 
 
