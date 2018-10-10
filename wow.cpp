@@ -210,9 +210,7 @@ bool isProduce(RedHeadquarter& red, vector<pair<string,int> > warrStrength) {
 
 	if(++ it == warrStrength.end()) {
 	    it = warrStrength.begin();
-	    continue;
 	}
-	it++;
     }
 
     red.produceWarr(red.nextWarr, it->second);
@@ -234,9 +232,7 @@ bool isProduce(BlueHeadquarter& blue, vector<pair<string,int> > warrStrength) {
 
 	if(++ it == warrStrength.end()) {
 	    it = warrStrength.begin();
-	    continue;
 	}
-	it++;
     }
 
     blue.produceWarr(blue.nextWarr, it->second);
