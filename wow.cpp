@@ -198,44 +198,48 @@ void BlueHeadquarter::produceWarr(int order, int life) {
 
 bool isProduce(RedHeadquarter& red, vector<pair<string,int> > warrStrength) {
     int lastWarr = red.nextWarr;
-    vector<pair<string,int> >::iterator it = warrStrength.begin();
-    while(it != warrStrength.end() 
-	    && red.produceWarrSeq[red.nextWarr] != it->first)
-	it ++;
+    int index;
+    for(index = 0; index < warrStrength.size(); ++ index) {
+	if(red.produceWarrSeq[red.nextWarr] == warrStrength[index].first)
+	    break;
+    }
 
-    while(red.energy < it -> second) {
+    while(red.energy < warrStrength[index].second) {
 	red.nextWarr = (red.nextWarr+1) % 5;
 	if(red.nextWarr == lastWarr)
 	    return false;
-
-	if(++ it == warrStrength.end()) {
-	    it = warrStrength.begin();
-	}
+        
+	for(index = 0; index < warrStrength.size(); ++ index) {
+	    if(red.produceWarrSeq[red.nextWarr] == warrStrength[index].first)
+	        break;
+        }
     }
 
-    red.produceWarr(red.nextWarr, it->second);
+    red.produceWarr(red.nextWarr, warrStrength[index].second);
     
     return true;
 }
 
 bool isProduce(BlueHeadquarter& blue, vector<pair<string,int> > warrStrength) {
     int lastWarr = blue.nextWarr;
-    vector<pair<string,int> >::iterator it = warrStrength.begin();
-    while(it != warrStrength.end() 
-	    && blue.produceWarrSeq[blue.nextWarr] != it->first)
-	it ++;
+    int index;
+    for(index = 0; index < warrStrength.size(); ++ index) {
+	if(blue.produceWarrSeq[blue.nextWarr] == warrStrength[index].first)
+	    break;
+    }
 
-    while(blue.energy < it -> second) {
+    while(blue.energy < warrStrength[index].second) {
 	blue.nextWarr = (blue.nextWarr+1) % 5;
 	if(blue.nextWarr == lastWarr)
 	    return false;
 
-	if(++ it == warrStrength.end()) {
-	    it = warrStrength.begin();
-	}
+        for(index = 0; index < warrStrength.size(); ++ index) {
+	    if(blue.produceWarrSeq[blue.nextWarr] == warrStrength[index].first)
+	        break;
+        }
     }
 
-    blue.produceWarr(blue.nextWarr, it->second);
+    blue.produceWarr(blue.nextWarr, warrStrength[index].second);
     
     return true;
 }
@@ -261,13 +265,12 @@ int main() {
 	for(int j = 0; j < 5; ++ j) {
 	    cin >> tmp;
 	    it -> second = tmp;
-	    cout << it->second << endl;
 	    it ++;
 	}
 
 	RedHeadquarter red(energy);
 	BlueHeadquarter blue(energy);
-	cout << "case:" << i+1 << endl;
+	cout << "Case:" << i+1 << endl;
 	while(1) {
 	    if(!isProduce(red, warrStrength)) {
 		cout << setw(3) << setfill('0');
