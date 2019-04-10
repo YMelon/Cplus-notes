@@ -6,6 +6,7 @@
 #include <cstdlib>
 using namespace std;
 
+
 class Student {
 public:
     void input(){
