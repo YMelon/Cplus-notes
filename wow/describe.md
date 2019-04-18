@@ -1,6 +1,6 @@
-###魔兽世界之二：装备
+魔兽世界之二：装备
 ---
-####描述
+描述
 
 魔兽世界的西面是红魔军的司令部，东面是蓝魔军的司令部。两个司令部之间是依次排列的若干城市。
 红司令部,City 1，City 2，……，City n，蓝司令部
@@ -39,43 +39,38 @@ wolf没特点。
    如果造出的是dragon，那么还要输出一行，例：
    It has a arrow,and it's morale is 23.34
    表示该dragon降生时得到了arrow,其士气是23.34（为简单起见，本题中arrow前面的冠词用a,不用an，士气精确到小数点后面2位，四舍五入）
-                                                                                                      如果造出的是ninja，那么还要输出一行，例：
-                                                                                                      It has a bomb and a arrow
-                                                                                                      表示该ninja降生时得到了bomb和arrow。
-                                                                                                      如果造出的是iceman，那么还要输出一行，例：
-                                                                                                      It has a sword
-                                                                                                      表示该iceman降生时得到了sword。
-                                                                                                      如果造出的是lion，那么还要输出一行，例：
-                                                                                                      It's loyalty is 24
-                                                                                                      表示该lion降生时的忠诚度是24。
-                                                                                                   2) 司令部停止制造武士
-                                                                                                      输出样例： 010 red headquarter stops making warriors
-                                                                                                      表示在 10点整，红方司令部停止制造武士
-                                                                                                                                                    
-                                                                                                      输出事件时：
-                                                                                                      首先按时间顺序输出；
-                                                                                                      同一时间发生的事件，先输出红司令部的，再输出蓝司令部的。
-                                                                                                      输入
-                                                                                                      第一行是一个整数,代表测试数据组数。
-                                                                                                      每组测试数据共两行。
-                                                                                                      第一行，一个整数M。其含义为： 每个司令部一开始都有M个生命元( 1 <= M <= 10000)
-    
-   第二行：五个整数，依次是 dragon 、ninja、iceman、lion、wolf 的初始生命值。它们都大于0小于等于10000
-   输出
+   如果造出的是ninja，那么还要输出一行，例：
+   It has a bomb and a arrow
+   表示该ninja降生时得到了bomb和arrow。
+   如果造出的是iceman，那么还要输出一行，例：
+   It has a sword
+   表示该iceman降生时得到了sword。
+   如果造出的是lion，那么还要输出一行，例：
+   It's loyalty is 24
+   表示该lion降生时的忠诚度是24。
+2) 司令部停止制造武士
+   输出样例： 010 red headquarter stops making warriors
+   表示在 10点整，红方司令部停止制造武士
+输出事件时：
+ 首先按时间顺序输出；
+ 同一时间发生的事件，先输出红司令部的，再输出蓝司令部的。
+ 输入
+ 第一行是一个整数,代表测试数据组数。
+ 每组测试数据共两行。
+ 第一行，一个整数M。其含义为： 每个司令部一开始都有M个生命元( 1 <= M <= 10000)
+ 第二行：五个整数，依次是 dragon 、ninja、iceman、lion、wolf 的初始生命值。它们都大于0小于等于10000
+ 输出
    对每组测试数据，要求输出从0时0分开始，到双方司令部都停止制造武士为止的所有事件。
    对每组测试数据，首先输出“Case:n" n是测试数据的编号，从1开始
    接下来按恰当的顺序和格式输出所有事件。每个事件都以事件发生的时间开头，时间以小时为单位，有三位.
 
-####样例输入
-(---)
+样例输入
     1
     20
     3 4 5 6 7
-(---)
 
-####样例输出
+样例输出
 
-(---)
     case:1
     000 red iceman 1 born with strength 5,1 iceman in red headquarter
     It has a bomb
@@ -92,4 +87,3 @@ wolf没特点。
     003 blue iceman 4 born with strength 5,1 iceman in blue headquarter
     It has a bomb
     004 blue headquarter stops making warriors'''
-(---)
